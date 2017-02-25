@@ -1,0 +1,307 @@
+	ToC
+
+	(0) Klase u paketu MultipleClassesLearning
+	(1) sta je klasa
+	(2) primer klase (konstruktori, metode)
+	(3) sta je objekat, kako se koristi
+	(4) enum (enumeracija)
+	(5) static promenljive
+	(6) Final promenljive
+	(7) Nasledjivanje
+
+-----------------------------------------------------------------------------------------------------------------------
+
+	(0) Klase u paketu MultipleClassesLearning
+
+	main.java 		- 	main klasa, kroz nju pozivamo sve ostale
+ 	girl.java 		- 	osnovne metode za unos podataka i ispis istih
+	time.java 		- 	osnovne funkcije klase, SET GET, vise konstruktora u jednoj klasi
+	date.java 		- 	koriscenje toString metode za stringovnu reprezentaciju objekta klase
+	bday.java	 	- 	koriscenje objekta iz klase date i njegovu stringovnu reprezentaciju kako bi napravili stringovnu reprezentaciju klase bday (stringovna rep u stringovnoj rep, klasa u klasi)
+	enumt.java		-	osnovno vezbanje sa enumatorima
+	ppllist.java	-	druga enumator klasa za daljnje vezbanje sa enumatorima
+	club.java		- 	vezbanje STATIC promenljivih
+
+-----------------------------------------------------------------------------------------------------------------------
+
+	(1) sta je klasa
+	
+Klasa je u sustini skup funkcija koji se nalazi u nekom .java fajlu, uglavnom ima samo jedna klasa u jednom .java fajlu radi preglednosti. Zato se maltene .java fajl naziva i klasa, jer ima samo jednu klasu unutra..
+
+-----------------------------------------------------------------------------------------------------------------------
+
+	(2) primer klase (konstruktori, metode)
+
+Kada napravimo klasu/.java fajl prva stvar koju je dobro uraditi je da se napravi konstruktor za nju. Konstruktor je maltene inicijalizacija promenljivih koje koristi klasa. Mozemo imati vise od jednog konstruktora ukoliko zelimo da tokom koriscenja klase ne moramo strogo da unosimo parametre za inicijalizaciju. (U tom slucaju bi svi konstruktori pokazivali na konstruktor u kojem se sve promenljive inicijalizuju (primer):
+
+	//******** primer klase ********
+	ime klase: satminut.java
+
+	private int trenutniSat;
+	private int trenutniMinut;
+
+	public satminut() {
+		this(0, 0);
+	}
+
+	public satminut(int sat, int minut) {
+		trenutniSat = sat;
+		trenutniMinut = minut;
+	}
+
+	public postaviSate(int sat) {
+		trenutniSat = sat;
+	}
+
+	public postaviMinut(int minut) {
+		trenutniMinut = minut;
+	}
+
+	// stringovna reprezentacija objekta, ukoliko se trazi da se stampa objekat kao string ispisace se string zadat ovom metodom (MORA DA SE ZOVE toString)
+	public String toString() {
+		return String.format("%d:%d", trenutniSat, trenutniMinut); // ispisuje sat:minut
+	}
+
+------------------------------------------------------------------------------------------------------------------------
+
+	(3) sta je objekat, kako se koristi
+
+Kada zelimo da koristimo klasu bilo gde pravimo objekat. Objekat moze da pristupi svim metodama (funkcijama) unutar klase iz koje je. (primer se nadovezuje na primer iznad):
+
+	public static int main(String args) {
+		satminut Objekat = new satminut(10, 15);
+		// napravljen objekat Objekat koji je iz klase satminut i inicijalizovan na sate 10 i minute 15
+	}
+
+Ukoliko zelimo da koristimo neki od metoda klase na kreiranom objektu to radimo koristeci .imeMetode (primer se nadovezuje na ******** primer klase *********):
+
+	public static int main(String args) {
+		satminut Objekat = new satminut(10, 15);
+
+		Objekat.postaviSate(12); // promenili smo trenutniSat u objektu Objekat sa 10 na 12
+		Objekat.postaviMinut(22); // promenili smo trenutniMinut u objektu Objekat sa 15 na 22
+	}
+
+Svaki objekat ima i svoju stringovnu reprezentaciju. (primer se nadovezuje na ******** primer klase *********):
+
+	public static int main(String args) {
+		satminut Objekat = new satminut(10, 15);
+
+		System.out.println(Objekat); // iskoristice toString metodu iz klase i ispisace: 10:15
+
+		Objekat.postaviSate(12);
+		Objekat.postaviMinut(22);
+
+		System.out.println(Objekat); // iskoristice toString metodu iz klase i ispisace: 12:22
+	}
+
+------------------------------------------------------------------------------------------------------------------------
+
+	(4) enum (enumeracija)
+
+Enumeracija je skup podataka gde pravimo maltene niz ali umesto indeksa koristimo imena promenljivih. Svaka ingod tih promenljivih ima dodatne podatke koji se kasnije opisuju uz pomoc konstruktora i kojima moze da se pristupi (primer) :
+
+	ime fajla: enumatori.java
+
+	public enum enumatori {
+
+		nikola("dock", "matf", "2. godina", 1996),
+		pavle("glen", "znrfak", "3. godina", 1996),
+		predrag("djuzepe", "elfak", "1. godina", 1995),
+		djordje("space", "medfak", "2. godina", 1996);
+
+		private String nadimakCoveka;
+		private String fakultetCoveka;
+		private String godinaFakulteta;
+		private int godisteCoveka
+
+		// napravili smo konstruktor koji kada uzme neki od clanova enumacije gore dodeljuje promenljvama dodatne podatke
+		// primer ako se uzme clan predrag, dodelice:
+		// nadimakCoveka = "djuzepe";
+		// fakultetCoveka = "elfak";
+		// godinaFakluteta = "1. godina";
+		// godisteCoveka = 1995;
+		enumatori(String nadimak, String faks, String god, int godiste) {
+			nadimakCoveka = nadimak;
+			fakultetCoveka = faks;
+			godinaFakulteta = god;
+			godisteCoveka = starost;
+		}
+
+		//napravimo funkcije koje uzimaju sve podatke i ispisuju ih
+		public String getInfo() {
+			return String.format("\t%s\t%s\t%s\t%d", nadimakCoveka, fakultetGodina, godinaFakulteta, godisteCoveka);
+		}
+
+	}
+
+Sada iskoristimo ovaj enumerator u main funkciji:
+
+	public static int main(String args) {
+		for(enumatori ljudi: enumatori.values()) {
+			System.out.println(ljudi + ljudi.getInfo());
+		}
+	}
+
+	/*
+		Red for(enumatori ljudi: enumatori.values()) objasnjen:
+
+		Ovo je napredna for petlja koja uzima samo 2 argumenta, radi maltene samo za nizove i takodje se koristi za enumeracije, uzima 2 argumenta i izmedju njih su :, 
+
+		enumatori ljudi - to je promenljiva u koju ce biti smesteni podaci iz enumatora jedan po jedan tokom for petlje
+		:
+		enumatori.values() - maltene niz imena enumatora (nikola, pavle, predrag, djordje)
+	*/
+
+enumatori.values() daje ceo spisak. Mozemo da iskoristimo posebnu klasu EnumSet range da dobijemo samo deo od jednog do drugog clana enumeracije, isto koristeci naprednu for petlju:
+
+	for(enumatori ljudi: EnumSet.range(enumatori.nikola, enumatori.predrag)) {
+		System.out.println(ljudi + ljudi.getInfo());
+	}
+
+	// Ispisace podatke za nikola, pavle i predrag, znaci prvi argument, sve do drugog argumenta i drugi argumenta
+
+------------------------------------------------------------------------------------------------------------------------
+
+	(5) static promenljive
+
+Static promenljiva je promenljiva ciju vrednost dele svi objekti neke klase. Obicne promenljive, bez static, cuvaju podatke samo jednog objekta (primer):
+
+	ime klase: club.java
+
+	public class club {
+		private String name;
+		private String surname;
+		private static int members = 0;
+
+		/*
+			promenljive name i surname nemaju static sto znaci da kada se kreira objekat svaki objekat ima svoje ime i prezime
+			promenljiva members ima static sto znaci da svi objekti dele vrednost ove promenljive i promena u jednom objektu dovodi do promene u svim objektima
+		*/
+
+
+		public club(String firstName, String lastName) {
+			name = firstName;
+			surname = lastName;
+			
+			members++;
+			
+			System.out.printf("Constructor for %s %s, members in the club: %d\n", name, surname, members);
+		}
+
+		/*
+			U konstruktoru iznad mozemo videti da se svaki put kada se konstruktor pozove (odnosno kada se kreira objekat) members povecava za 1, printf sluzi cisto da vidimo promenu
+		*/
+	}
+
+Ukoliko sada ovu klasu pozovemo u mainu ovako:
+
+	public static void main(String args) {
+		club m1 = new club("Nikola", "Dokmanovic");
+		club m2 = new club("Pavle", "Stanojevic");
+		club m3 = new club("Predrag", "Arezina");
+	}
+
+Dobijemo ispis na konzoli kada pokrenemo program:
+
+	Constructor for Nikola Dokmanovic, members in the club: 1
+	Constructor for Pavle Stanojevic, members in the club: 2
+	Constructor for Predrag Arezina, members in the club: 3
+
+Da bismo dobili static vrednost iz klase, napravimo metodu koja returna vrednost:
+
+	public stataic int getMembers() {
+		return members;
+	}
+
+Sada ovu metodu mozemo da pozovemo sa bilo kojim objektom iz klase da bismo dobili staticnu vrednost koju dele svi objekti u klasi (maltene promenljiva klase, a ne promenljiva objekta):
+
+	m1.getMembers();
+	m2.getMembers();
+	m3.getMembers();
+
+Da bismo dosli do static promenljive mozemo da, umesto koristeci objekat pozovemo metodu, koristimo ime klase i preko njega pozivamo metodu:
+
+	club.getMembers();
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+	(6) Final promenljive
+
+Final promenljiva je isto sto je bila const promenljiva u C jeziku. Jedino mesto gde final promenljiva moze da promeni svoju vrednost je tokom inicijalizacije ili u konstruktoru (isto inicijalizacija)
+
+-----------------------------------------------------------------------------------------------------------------------
+
+	(7) Nasledjivanje
+
+Ukoliko napravimo klasu 'hamburger' i klasu 'pizza' i zelimo da obe imaju metodu eat:
+
+	public void eat() {
+		System.out.println("nom nom nom nom");
+	}
+
+Umesto da pravimo istu metodu za obe klase, mozemo napraviti trecu klasu 'hrana' koja ce sadrzati sve metode koje 'hamburger' i 'pizza' imaju zajednicke, primer:
+
+	klasa: hamburger.java
+
+	public class hamburger {
+
+	}
+
+
+	klasa: pizza.java
+
+	public class pizza {
+
+	}
+
+
+	klasa: hrana.java
+
+	public void eat() {
+		System.out.println("nom nom nom nom");
+	}
+
+Ukoliko zelimo da klase hamburger i pizza mogu da koriste sve metode klase hrana kazemo da oni nasledjuju klasu hrana. U ovom slucaju hrana je klasa koju nazivamo superclass, a klase hamburger i pizza nazivamo subclass.
+
+Da bi hamburger i pizza nasledile klasu hrana potrebno je da promenimo kod iznad:
+
+	klasa: hamburger.java
+
+	public class hamburger extends hrana {
+
+	}
+
+
+	klasa: pizza.java
+
+	public class pizza extends hrana {
+
+	}
+
+
+	klasa: hrana.java
+
+	public void eat() {
+		System.out.println("nom nom nom nom");
+	}
+
+Dodavsi 'extends hrana' klasama pizza i hamburger, dozvolili smo im da objekti ove dve klase mogu da  koriste sve metode klase hrana. Ovo je NASLEDJIVANJE.
+
+Sada ukoliko u mainu napravimo ovako nesto:
+
+	public static void main(String args) {
+		hamburger hamburgerObjekat = new hamburger();
+		pizza pizzaObjekat = new pizza();
+
+		System.out.println("hamburger " + hamburgerObjekat.eat());
+		System.out.println("pizza " + pizzaObjekat.eat());
+	}
+
+Dobicemo ispis u konzoli:
+
+	hamburger nom nom nom nom
+	pizza nom nom nom nom
+
+Ovo nam dozvoljava da ukoliko koristimo neku istu metodu u vise klasa mozemo da je napisemo samo jednom i ukoliko bude bilo potrebno, menjamo samo jednom, umesto u svakoj klasi posebno!
